@@ -1,10 +1,9 @@
 <script lang="ts">
 	import * as THREE from 'three';
 	import * as SC from 'svelte-cubed';
+	import { CSSRenderer, Screen } from 'svelte-cubed-dom';
 
 	let scCanvas: SC.Canvas;
-
-	import { CSSRenderer, Screen } from 'svelte-cubed-dom';
 </script>
 
 <SC.Canvas

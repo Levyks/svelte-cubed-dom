@@ -1,38 +1,71 @@
-# create-svelte
+# svelte-cubed-dom
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Easily create screens that render DOM elements in svelte-cubed
 
-## Creating a project
+![Screenshot](https://i.imgur.com/IYMopa2.png)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Installation
 
-```bash
-# create a new project in the current directory
-npm init svelte
-
-# create a new project in my-app
-npm init svelte my-app
+```
+npm install svelte-cubed-dom
 ```
 
-## Developing
+## Usage
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Put a `CSSRenderer` component somewhere in the component three "below" `SC.Canvas`
 
-```bash
-npm run dev
+Pass as it `scCanvas` prop the object binded to the `SC.Canvas` component (this will probably not be needed once [this PR](https://github.com/Rich-Harris/svelte-cubed/pull/17) is merged)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```svelte
+<script lang="ts">
+	import * as THREE from 'three';
+	import * as SC from 'svelte-cubed';
+	import { CSSRenderer } from 'svelte-cubed-dom';
+
+	let scCanvas: SC.Canvas;
+</script>
+
+<SC.Canvas bind:this={scCanvas}>
+	<CSSRenderer {scCanvas}>
+		<!-- ... -->
+	</CSSRenderer>
+</SC.Canvas>
 ```
 
-## Building
+### Just put a `Screen` component anywhere you need it
 
-To create a production version of your app:
+```svelte
+<script lang="ts">
+	import { Screen } from 'svelte-cubed-dom';
+</script>
 
-```bash
-npm run build
+<Screen
+	style="width: 1280px; height: 720px; background: white; border: 5px solid black;"
+	scale={[0.0008, 0.0008, 0.0008]}
+	position={[0, 0.4, 0.06]}
+>
+	<main>
+		<h1>Hello from</h1>
+		<h2>svelte-cubed-dom</h2>
+
+		<div>
+			<a href="https://github.com/Levyks/svelte-cubed-dom">GitHub</a>
+			<a href="https://www.npmjs.com/package/svelte-cubed-dom">NPM</a>
+		</div>
+
+		<iframe
+			width="560"
+			height="315"
+			src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+			title="YouTube video player"
+			frameborder="0"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen
+		/>
+	</main>
+</Screen>
 ```
 
-You can preview the production build with `npm run preview`.
+### Disclaimer
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+I don't know Three.js that well, so there might be some problems with the approach I've taken. If you have any suggestions, please let me know.
